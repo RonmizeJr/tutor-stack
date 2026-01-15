@@ -26,7 +26,11 @@ export const syncUser = mutation({
     if (user !== null) {
       // 2. User exists: Update them (in case they changed their Clerk avatar/name)
       // We check if anything actually changed to avoid unnecessary writes
-      if (user.name !== args.name || user.imageUrl !== args.imageUrl) {
+      if (
+        user.name !== args.name ||
+        user.email !== args.email ||
+        user.imageUrl !== args.imageUrl
+      ) {
         await ctx.db.patch(user._id, {
           name: args.name,
           email: args.email,
