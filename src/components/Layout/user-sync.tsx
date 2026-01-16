@@ -12,15 +12,22 @@ export default function UserSync() {
 
   useEffect(() => {
     // Only run if we have the User data AND Convex is authenticated
-    if (user && isAuthenticated) {
-      syncUser({
-        name: user.fullName ?? undefined,
-        email: user.primaryEmailAddress?.emailAddress ?? undefined,
-        imageUrl: user.imageUrl ?? undefined,
-      }).catch((err) => {
-        console.error('Failed to sync user:', err);
-      });
-    }
+    if (!user || !isAuthenticated) return;
+
+    const name = user.fullName;
+    const email = user.primaryEmailAddress?.emailAddress;
+    const imageUrl = user.imageUrl ?? '';
+
+    // Skip syncing if required fields are missing
+    if (!name || !email) return;
+
+    syncUser({
+      name,
+      email,
+      imageUrl,
+    }).catch((err) => {
+      console.error('Failed to sync user:', err);
+    });
   }, [user, isAuthenticated, syncUser]); // <--- Add isAuthenticated to dependency array
 
   return null;
