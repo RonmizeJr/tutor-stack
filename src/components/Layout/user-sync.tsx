@@ -14,9 +14,9 @@ export default function UserSync() {
     // Only run if we have the User data AND Convex is authenticated
     if (user && isAuthenticated) {
       syncUser({
-        name: user.fullName as string,
-        email: user.primaryEmailAddress?.emailAddress as string,
-        imageUrl: user.imageUrl as string,
+        name: user.fullName ?? '',
+        email: user.primaryEmailAddress?.emailAddress ?? '',
+        imageUrl: user.imageUrl ?? '',
       }).catch((err) => {
         console.error('Failed to sync user:', err);
       });
