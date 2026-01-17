@@ -1,5 +1,5 @@
-import { v } from 'convex/values';
-import { mutation, query } from './_generated/server';
+import { v } from "convex/values";
+import { mutation, query } from "./_generated/server";
 
 export const syncUser = mutation({
   args: {
@@ -12,14 +12,14 @@ export const syncUser = mutation({
     const identity = await ctx.auth.getUserIdentity();
 
     if (!identity) {
-      throw new Error('Called syncUser without authentication');
+      throw new Error("Called syncUser without authentication");
     }
 
     // 1. Check if user exists
     const user = await ctx.db
-      .query('users')
-      .withIndex('by_token', (q) =>
-        q.eq('tokenIdentifier', identity.tokenIdentifier)
+      .query("users")
+      .withIndex("by_token", (q) =>
+        q.eq("tokenIdentifier", identity.tokenIdentifier),
       )
       .first();
 
@@ -41,11 +41,11 @@ export const syncUser = mutation({
     }
 
     // 3. User is NEW: Create them with the "Welcome Bonus"
-    const newUserId = await ctx.db.insert('users', {
+    const newUserId = await ctx.db.insert("users", {
       tokenIdentifier: identity.tokenIdentifier,
-      name: args.name ?? '',
-      email: args.email ?? '',
-      imageUrl: args.imageUrl ?? '',
+      name: args.name ?? "",
+      email: args.email ?? "",
+      imageUrl: args.imageUrl ?? "",
       credits: 100, // <--- 🎁 GIVE THEM 10 FREE CREDITS HERE
     });
 
@@ -61,9 +61,9 @@ export const current = query({
     if (!identity) return null;
 
     return await ctx.db
-      .query('users')
-      .withIndex('by_token', (q) =>
-        q.eq('tokenIdentifier', identity.tokenIdentifier)
+      .query("users")
+      .withIndex("by_token", (q) =>
+        q.eq("tokenIdentifier", identity.tokenIdentifier),
       )
       .first();
   },

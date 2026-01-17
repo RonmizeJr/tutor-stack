@@ -1,9 +1,9 @@
-'use client';
+"use client";
 
-import { useUser } from '@clerk/nextjs';
-import { useMutation, useConvexAuth } from 'convex/react'; // <--- Add useConvexAuth
-import { api } from '../../../convex/_generated/api';
-import { useEffect } from 'react';
+import { useUser } from "@clerk/nextjs";
+import { useMutation, useConvexAuth } from "convex/react"; // <--- Add useConvexAuth
+import { api } from "../../../convex/_generated/api";
+import { useEffect } from "react";
 
 export default function UserSync() {
   const { user } = useUser();
@@ -16,7 +16,7 @@ export default function UserSync() {
 
     const name = user.fullName;
     const email = user.primaryEmailAddress?.emailAddress;
-    const imageUrl = user.imageUrl ?? '';
+    const imageUrl = user.imageUrl ?? "";
 
     // Skip syncing if required fields are missing
     if (!name || !email) return;
@@ -26,7 +26,7 @@ export default function UserSync() {
       email,
       imageUrl,
     }).catch((err) => {
-      console.error('Failed to sync user:', err);
+      console.error("Failed to sync user:", err);
     });
   }, [user, isAuthenticated, syncUser]); // <--- Add isAuthenticated to dependency array
 
